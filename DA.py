@@ -40,7 +40,7 @@ hour_df.rename(columns={'instant':'rec_id',
 # Setting proper data types
 ###########################
 # date time conversion
-hour_df['datetime'] = pd.to_date(hour_df.date)
+hour_df['datetime'] = pd.to_datetime(hour_df.date)
 
 # categorical variables
 hour_df['season'] = hour_df.season.astype('category')

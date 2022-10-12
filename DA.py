@@ -1,13 +1,24 @@
-# %%
-# import libraries
 import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import altair as alt
+from sklearn import metrics
+from sklearn import preprocessing
+from sklearn import linear_model
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_predict
+from sklearn.model_selection import cross_val_score
 
 st.set_page_config(layout="wide")
+
+st.title("Ini Dashboard BikeSharing")
+st.write("Nurfitria Khoirunnisa")
+st.caption("Dashboard BikeSharing")
+
+
+"Hello Bike Sharing"
 
 #importing data
 df = pd.read_csv("hour.csv")
@@ -28,7 +39,6 @@ df.rename(columns={'instant':'rec_id',
                         'hr':'hour',
                         'yr':'year'},inplace=True)
 ###########################
-# Setting proper data types###########################
 # Setting proper data types
 
 ###########################

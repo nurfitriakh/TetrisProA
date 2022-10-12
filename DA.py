@@ -55,8 +55,8 @@ hour_df['hour'] = hour_df.hour.astype('category')
 
 st.dataframe(hour_df)
 
-st.metric("Hour", 10, 4)
-st.line_chart(hour_df['Hour'])
+st.metric("Hum", 10, 4)
+st.line_chart(hour_df['Hum'])
 # %%
 """
 # plotting

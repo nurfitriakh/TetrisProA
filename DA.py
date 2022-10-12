@@ -1,23 +1,34 @@
 # %%
 # import libraries
+import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import streamlit as st
-from sklearn import metrics
-from sklearn import preprocessing
-from sklearn import linear_model
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import cross_val_predict
-from sklearn.model_selection import cross_val_score
+import altair as alt
 
 st.set_page_config(layout="wide")
-# %%
-#importing data
-hour_df = pd.read_csv("hour.csv")
-hour_df.info()
 
+#importing data
+df = pd.read_csv("hour.csv")
+df.info()
+st.write("Data Frame")
+st.dataframe(df)
+#st.line_chart(df['hum'])
+st.write("Data PreProcessing")
+# Renaming columns names to more readable names
+df.rename(columns={'instant':'rec_id',
+                        'dteday':'datetime',
+                        'holiday':'is_holiday',
+                        'workingday':'is_workingday',
+                        'weathersit':'weather_condition',
+                        'hum':'humidity',
+                        'mnth':'month',
+                        'cnt':'total_count',
+                        'hr':'hour',
+                        'yr':'year'},inplace=True)
+###########################
+# Setting proper data types
 # %%
 """
 # data preprocessing

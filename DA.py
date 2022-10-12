@@ -15,10 +15,6 @@ st.set_page_config(layout="wide")
 
 st.title("Ini Dashboard BikeSharing")
 st.write("Nurfitria Khoirunnisa")
-st.caption("Dashboard BikeSharing")
-
-
-"Hello Bike Sharing"
 
 #importing data
 df = pd.read_csv("hour.csv")
@@ -26,7 +22,7 @@ df.info()
 st.write("Data Frame")
 st.dataframe(df)
 #st.line_chart(df['hum'])
-st.write("Data PreProcessing")
+
 # Renaming columns names to more readable names
 df.rename(columns={'instant':'rec_id',
                         'dteday':'datetime',

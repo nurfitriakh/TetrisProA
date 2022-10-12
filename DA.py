@@ -13,7 +13,7 @@ from sklearn.model_selection import cross_val_score
 
 st.set_page_config(layout="wide")
 
-st.title("Ini Dashboard BikeSharing")
+st.title("Dashboard BikeSharing")
 st.write("Nurfitria Khoirunnisa")
 
 #importing data

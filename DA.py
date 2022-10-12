@@ -21,8 +21,8 @@ df = pd.read_csv("hour.csv")
 df.info()
 st.write("Data Frame")
 st.dataframe(df)
-#st.line_chart(df['hum'])
 
+# Data PreProcessing
 # Renaming columns names to more readable names
 df.rename(columns={'instant':'rec_id',
                         'dteday':'datetime',
@@ -147,7 +147,7 @@ sns.heatmap(corrMatt,
             ax=ax)
 st.pyplot(fig,ax)
 
-st.write("Feature Engineering")
+# Feature Engineering
 def fit_transform_ohe(df,col_name):
     # label encode the column
     le = preprocessing.LabelEncoder()
@@ -173,7 +173,7 @@ def transform_ohe(df,le,ohe,col_name):
     
     return features_df
 
-st.write("Membagi data set menjadi data training dan data testing")
+# Membagi data set menjadi data training dan data testing
 X, X_test, y, y_test = train_test_split(df.iloc[:,0:-3],
                                         df.iloc[:,-1],
                                         test_size=0.33,

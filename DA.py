@@ -17,13 +17,11 @@ from sklearn.model_selection import cross_val_score
 hour_df = pd.read_csv("hour.csv")
 hour_df.info()
 
-st.dataframe(hour_df)
-
 # %%
 """
 # data preprocessing
 """
-
+st.dataframe(hour_df)
 # %%
 # Renaming columns names to more readable names
 hour_df.rename(columns={'instant':'rec_id',

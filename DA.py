@@ -22,6 +22,7 @@ hour_df.info()
 """
 # data preprocessing
 """
+st.metric("Hour", 100, "4%")
 st.line_chart(hour_df['Hour'])
 # %%
 # Renaming columns names to more readable names

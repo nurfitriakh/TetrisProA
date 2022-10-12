@@ -12,6 +12,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import cross_val_score
 
+st.set_page_config(layout="wide")
 # %%
 #importing data
 hour_df = pd.read_csv("hour.csv")
@@ -21,7 +22,7 @@ hour_df.info()
 """
 # data preprocessing
 """
-st.dataframe(hour_df)
+
 # %%
 # Renaming columns names to more readable names
 hour_df.rename(columns={'instant':'rec_id',
@@ -51,6 +52,8 @@ hour_df['month'] = hour_df.month.astype('category')
 hour_df['year'] = hour_df.year.astype('category')
 hour_df['hour'] = hour_df.hour.astype('category')
 
+
+st.dataframe(hour_df)
 # %%
 """
 # plotting

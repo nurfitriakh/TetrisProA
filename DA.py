@@ -22,8 +22,7 @@ hour_df.info()
 """
 # data preprocessing
 """
-st.metric("Hour", 100, "4%")
-st.line_chart(hour_df['Hour'])
+
 # %%
 # Renaming columns names to more readable names
 hour_df.rename(columns={'instant':'rec_id',
@@ -55,6 +54,9 @@ hour_df['hour'] = hour_df.hour.astype('category')
 
 
 st.dataframe(hour_df)
+
+st.metric("Hour", 10, 4)
+st.line_chart(hour_df['Hour'])
 # %%
 """
 # plotting

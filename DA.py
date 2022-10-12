@@ -28,50 +28,24 @@ df.rename(columns={'instant':'rec_id',
                         'hr':'hour',
                         'yr':'year'},inplace=True)
 ###########################
+# Setting proper data types###########################
 # Setting proper data types
-# %%
-"""
-# data preprocessing
-"""
 
-# %%
-# Renaming columns names to more readable names
-hour_df.rename(columns={'instant':'rec_id',
-                        'dteday':'datetime',
-                        'holiday':'is_holiday',
-                        'workingday':'is_workingday',
-                        'weathersit':'weather_condition',
-                        'hum':'humidity',
-                        'mnth':'month',
-                        'cnt':'total_count',
-                        'hr':'hour',
-                        'yr':'year'},inplace=True)
-
-###########################
-# Setting proper data types
 ###########################
 # date time conversion
-hour_df['datetime'] = pd.to_datetime(hour_df.datetime)
+df['datetime'] = pd.to_datetime(df.datetime)
 
 # categorical variables
-hour_df['season'] = hour_df.season.astype('category')
-hour_df['is_holiday'] = hour_df.is_holiday.astype('category')
-hour_df['weekday'] = hour_df.weekday.astype('category')
-hour_df['weather_condition'] = hour_df.weather_condition.astype('category')
-hour_df['is_workingday'] = hour_df.is_workingday.astype('category')
-hour_df['month'] = hour_df.month.astype('category')
-hour_df['year'] = hour_df.year.astype('category')
-hour_df['hour'] = hour_df.hour.astype('category')
+df['season'] = df.season.astype('category')
+df['is_holiday'] = df.is_holiday.astype('category')
+df['weekday'] = df.weekday.astype('category')
+df['weather_condition'] = df.weather_condition.astype('category')
+df['is_workingday'] = df.is_workingday.astype('category')
+df['month'] = df.month.astype('category')
+df['year'] = df.year.astype('category')
+df['hour'] = df.hour.astype('category')
 
-st.dataframe(hour_df)
-#st.table(hour_df)
-st.line_chart(hour_df['hum'])
-# %%
-"""
-# plotting
-"""
-
-# %%
+st.write("Plotting")
 # Configuring plotting visual and sizes
 sns.set_style('whitegrid')
 sns.set_context('talk')
@@ -81,12 +55,9 @@ params = {'legend.fontsize': 'x-large',
           'axes.titlesize':'x-large',
           'xtick.labelsize':'x-large',
           'ytick.labelsize':'x-large'}
-
 plt.rcParams.update(params)
-
-# %%
 fig,ax = plt.subplots()
-sns.pointplot(data=hour_df[['hour',
+sns.pointplot(data=df[['hour',
                            'total_count',
                            'season']],
               x='hour',
@@ -94,10 +65,10 @@ sns.pointplot(data=hour_df[['hour',
               hue='season',
               ax=ax)
 ax.set(title="Season wise hourly distribution of counts")
+st.pyplot(fig,ax)
 
-# %%
 fig,ax = plt.subplots()
-sns.pointplot(data=hour_df[['hour',
+sns.pointplot(data=df[['hour',
                            'total_count',
                            'weekday']],
               x='hour',
@@ -105,60 +76,52 @@ sns.pointplot(data=hour_df[['hour',
               hue='weekday',
               ax=ax)
 ax.set(title="Weekday wise hourly distribution of counts")
+st.pyplot(fig,ax)
 
-# %%
 fig,ax = plt.subplots()
-sns.barplot(data=hour_df[['month',
+sns.barplot(data=df[['month',
                            'total_count']],
               x='month',
               y='total_count',
               ax=ax)
 ax.set(title="Monthly distribution of counts")
+st.pyplot(fig,ax)
 
-# %%
 fig,ax = plt.subplots()
-sns.barplot(data=hour_df[['season',
+sns.barplot(data=df[['season',
                            'total_count']],
               x='season',
               y='total_count',
               ax=ax)
 ax.set(title="Seasonal distribution of counts")
+st.pyplot(fig,ax)
 
-# %%
 fig,ax = plt.subplots()
-sns.violinplot(data=hour_df[['year',
+sns.violinplot(data=df[['year',
                            'total_count']],
               x='year',
               y='total_count',
               ax=ax)
 ax.set(title="Year distribution of counts")
+st.pyplot(fig,ax)
 
-# %%
-"""
-# Memeriksa outliners
-"""
-
-# %%
+st.write("Check Outliners")
 fig,(ax1,ax2) = plt.subplots(ncols=2)
-sns.boxplot(data=hour_df[['total_count',
+sns.boxplot(data=df[['total_count',
                           'casual',
                           'registered']],ax=ax1)
-sns.boxplot(data=hour_df[['temp',
+sns.boxplot(data=df[['temp',
                           'windspeed']],ax=ax2)
+st.pyplot(fig,ax)
 
-# %%
 fig,ax = plt.subplots()
-sns.boxplot(data=hour_df[['total_count',
+sns.boxplot(data=df[['total_count',
                           'hour']],x='hour',y='total_count',ax=ax)
 ax.set(title="Checking for outliners in day hours")
+st.pyplot(fig,ax)
 
-# %%
-"""
-# melihat korelasi
-"""
-
-# %%
-corrMatt = hour_df[['temp',
+st.write("Melihat Korelasi")
+corrMatt = df[['temp',
                     'atemp', 
                     'humidity', 
                     'windspeed', 
@@ -176,23 +139,10 @@ sns.heatmap(corrMatt,
             square=True,
             annot=True,
             ax=ax)
+st.pyplot(fig,ax)
 
-# %%
-"""
-# feature engineering
-"""
-
-# %%
-# Defining categorical variables encoder method
+st.write("Feature Engineering")
 def fit_transform_ohe(df,col_name):
-    """This function performs one hot encoding for the specified
-column.
-    Args:
-        df(pandas.DataFrame): the data frame containing the mentioned column name
-        col_name: the column to be one hot encoded
-    Returns:
-        tuple: label_encoder, one_hot_encoder, transformed column as pandas Series
-    """
     # label encode the column
     le = preprocessing.LabelEncoder()
     le_labels = le.fit_transform(df[col_name])
@@ -203,23 +153,9 @@ column.
     feature_labels = [col_name+'_'+str(cls_label) for cls_label in le.classes_]
     features_df = pd.DataFrame(feature_arr, columns=feature_labels)
     return le,ohe,features_df
-
-# given label encoder and one hot encoder objects, 
-# encode attribute to ohe
+    # given label encoder and one hot encoder objects, 
+    # encode attribute to ohe
 def transform_ohe(df,le,ohe,col_name):
-    """This function performs one hot encoding for the specified
-        column using the specified encoder objects.
-
-    Args:
-        df(pandas.DataFrame): the data frame containing the mentioned column name
-        le(Label Encoder): the label encoder object used to fit label encoding
-        ohe(One Hot Encoder): the onen hot encoder object used to fit one hot encoding
-        col_name: the column to be one hot encoded
-
-    Returns:
-        tuple: transformed column as pandas Series
-
-    """
     # label encode
     col_labels = le.transform(df[col_name])
     df[col_name+'_label'] = col_labels
@@ -231,14 +167,9 @@ def transform_ohe(df,le,ohe,col_name):
     
     return features_df
 
-# %%
-"""
-# membagi data set menjadi data training and data testing
-"""
-
-# %%
-X, X_test, y, y_test = train_test_split(hour_df.iloc[:,0:-3],
-                                        hour_df.iloc[:,-1],
+st.write("Membagi data set menjadi data training dan data testing")
+X, X_test, y, y_test = train_test_split(df.iloc[:,0:-3],
+                                        df.iloc[:,-1],
                                         test_size=0.33,
                                         random_state=42)
 X.reset_index(inplace=True)
@@ -247,7 +178,6 @@ y = y.reset_index()
 X_test.reset_index(inplace=True)
 y_test = y_test.reset_index()
 
-# %%
 # Encoding all the categorical features
 cat_attr_list = ['season','is_holiday',
                  'weather_condition','is_workingday',
@@ -302,12 +232,7 @@ test_df_new = pd.concat(test_feature_df_list, axis=1)
 print("Test dataset shape::{}".format(test_df_new.shape))
 print(test_df_new.head())
 
-# %%
-"""
-# Modeling
-"""
-
-# %%
+st.write("Modeling")
 X = train_df_new
 y = y.total_count.values.reshape(-1,1)
 
@@ -316,8 +241,6 @@ lin_reg = linear_model.LinearRegression()
 # using the k-fold cross validation (specifically 10-fold) to reduce overfitting affects
 # cross_val_predict function returns cross validated prediction values as fitted by the model object.
 predicted = cross_val_predict(lin_reg, X, y, cv=10)
-
-# %%
 # Analysing residuals in our predictinos
 fig,ax = plt.subplots(figsize=(15,15))
 ax.scatter(y, y-predicted)
@@ -326,8 +249,8 @@ ax.set_xlabel('Observed')
 ax.set_ylabel('Residual')
 ax.set_title('Residual Plot')
 plt.show()
+st.pyplot(fig,ax)
 
-# %%
 # Evaluating model in cross-validation iteration
 
 r2_scores = cross_val_score(lin_reg, X, y, cv=10)
@@ -341,16 +264,11 @@ ax.set_ylabel('R.Squared')
 ax.set_title('Cross-Validation scores')
 plt.show()
 
-
 print("R-squared::{}".format(r2_scores))
 print("MSE::{}".format(mse))
+st.pyplot(fig,ax)
 
-# %%
-"""
-# Testing dataset dan evaluation
-"""
-
-# %%
+st.write("Testing DataSet and Evaluation")
 # Predict model based on training dataset
 lin_reg.fit(X,y)
 
@@ -371,8 +289,6 @@ ax.title.set_text("Residual Plot with R-Squared={}".format(np.average(lin_reg.sc
 plt.show()
 
 print("MSE: {}".format(metrics.mean_squared_error(y_test, y_pred)))
+st.pyplot(fig,ax)
 
-# %%
-"""
-Seperti yang kita lihat, hanya dapat memprediksi sekitar 40% dari hasil. hal ini disebabkan karena non-linearitas variabel independen terhadap fitur dependen.
-"""
+st.caption("Seperti yang kita lihat, hanya dapat memprediksi sekitar 40% dari hasil. hal ini disebabkan karena non-linearitas variabel independen terhadap fitur dependen.")

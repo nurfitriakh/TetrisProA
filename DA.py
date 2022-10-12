@@ -52,7 +52,6 @@ hour_df['month'] = hour_df.month.astype('category')
 hour_df['year'] = hour_df.year.astype('category')
 hour_df['hour'] = hour_df.hour.astype('category')
 
-
 st.dataframe(hour_df)
 #st.table(hour_df)
 st.line_chart(hour_df)

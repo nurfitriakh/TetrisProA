@@ -17,7 +17,7 @@ from sklearn.model_selection import cross_val_score
 hour_df = pd.read_csv("hour.csv")
 hour_df.info()
 
-st.dataframe(df)
+st.dataframe(hout_df)
 
 # %%
 """
